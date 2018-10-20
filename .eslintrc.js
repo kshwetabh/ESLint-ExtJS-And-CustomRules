@@ -2,7 +2,7 @@ module.exports = {
     "env": {
         "browser": true
     },
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended", "plugin:sonarjs/recommended"],
     "parserOptions": {
         "ecmaVersion": 5
     },
@@ -22,19 +22,25 @@ module.exports = {
         "vcei": false,
         "UTILITY": false
     },
-    "plugins": ["hms-plugins"],
+    "plugins": ["sonarjs", "hms-plugins"],
     "rules": {
         "indent": "off",
         "linebreak-style": "off",
         "quotes": "off",
         "no-mixed-spaces-and-tabs": "off",
-        "semi": [
-            "error",
-            "always"
-        ],
-        "hms-plugins/no-ext-create-method": 1,
-        "hms-plugins/no-hms-fieldlabel-asterisk": 1,
+        "semi": ["error", "always"],
+        "vars-on-top": "off", // "error",
+        "one-var": ["warn", "always"],
+        
+        //SonarLint rules
+        "sonarjs/no-duplicate-string": "off",
+        "sonarjs/cognitive-complexity": "off",
+        
+        //HMS Plugin rules
+        "hms-plugins/no-ext-create-method": 2, //0=off, 1=warn, 2=error
+        "hms-plugins/no-hms-fieldlabel-asterisk": 2,
         "hms-plugins/no-hms-ext-componentquery": 1,
-        "hms-plugins/no-hms-ext-window-autoshow-show": 1
+        "hms-plugins/no-hms-ext-window-autoshow-show": 2,
+        "hms-plugins/no-hms-servercall-async": 0
     }
 };

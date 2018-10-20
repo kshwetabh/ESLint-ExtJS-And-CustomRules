@@ -94,6 +94,37 @@ module.exports = {
                 		}
                 	}
                 }
+            },
+            "no-hms-servercall-async": { //serverCall should have {async: true} Not Working correctly
+                create: function(context) {
+                    return {
+                    	CallExpression(node) {
+                    		if (node.callee && 
+                    				node.callee.object &&
+                    				node.callee.object.object && node.callee.object.object.name=== "EAM" &&
+                    				node.callee.object.property && node.callee.object.property.name === "Utils" &&
+                    				node.callee.property && node.callee.property.name === "serverCall" &&
+                    				node.arguments && node.arguments[0]) {
+                    			var i=0, prop, found = false,
+                    				arg0 = node.arguments[0],
+                    				props = arg0.properties,
+                    				len = props ? props.length : 0;
+                    			
+                    			for (; i < len; i++) {
+                    				prop = props[0];
+                    				if (prop.type === "Property" && prop.key && 
+                    						prop.key.name === "async" && prop.value.value === true) {
+                    					found = true;
+                    					break;
+                    				}
+                    			}
+                    			if (!found) {
+                    				context.report(node, 'Use async:true with EAM.Utils.serverCall to make async calls and display page mask.');
+                    			}
+                    		}
+                    	}
+                    }
+                }
             }
         }
 }
