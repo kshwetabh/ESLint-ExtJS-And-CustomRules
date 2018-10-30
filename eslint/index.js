@@ -1,5 +1,12 @@
+/**
+ * Custom Rules to enforce HMS coding standards and best practices.
+ */
+
 module.exports = {
     rules: {
+    	/**
+    	 * Enforce the use of EAM.HmsUtils.openPopup() method instead of Ext.create() so that browser displays pagewait mask while user is waiting.
+    	 */
         "no-hms-ext-create-method": {
             create: function(context) {
                 return {
@@ -15,6 +22,9 @@ module.exports = {
                 };
             }
         },
+        /**
+         * Enforce the use of "*" at the end of fieldLabel value to indicate missing value for the field in the database
+         */
         "no-hms-fieldlabel-asterisk": {
             create: function(context) {
                 return {
@@ -30,6 +40,9 @@ module.exports = {
                 }
             }
         },
+        /**
+         * Enforce using view.up() or view.down() methods instead of the expensive Ext.ComponentQuery.query() method 
+         */
         "no-hms-ext-componentquery": {
             create: function(context) {
                 return {
@@ -50,6 +63,9 @@ module.exports = {
             	}
             }
         },
+        /**
+         * Do not use autoShow:true and show() in Ext.create() method at the same time. 
+         */
         "no-hms-ext-window-autoshow-show": {
             create: function(context) {
                 return {
@@ -95,7 +111,10 @@ module.exports = {
             	}
             }
         },
-        "no-hms-servercall-async": { //serverCall should have {async: true}
+        /**
+         * Enforce the rule of using async:true in EAM.Utils.serverCall() method so that pagewait mask is displays while user is waiting.
+         */
+        "no-hms-servercall-async": {
             create: function(context) {
                 return {
                 	CallExpression(node) {
@@ -131,7 +150,11 @@ module.exports = {
                 }
             }
         },
-        "no-hms-null-undefined": { //Issue: Gives too many false positives
+        /**
+         * Enforce the use of Ext.isEmpty() while checking a value for null and empty. 
+         */
+        //Issue: Gives too many false positives
+        "no-hms-null-undefined": {
             create: function(context) {
                 return {
                     BinaryExpression(node){                         
@@ -145,6 +168,9 @@ module.exports = {
                 }
             }
         },
+        /**
+         * Enforce the Checklist rule that a LOV name must start with LV 
+         */
         "no-hms-lookup-start-LV": {
             create: function(context) {
                 return {
@@ -157,8 +183,11 @@ module.exports = {
                 }
             }
         },
-        "no-hms-bad-variable-names": { // Bad variable naming pattern needs to stop (like vFormPanel, vConfig, etc.)
-            create: function(context) {            	
+        /**
+         * Stop the bad practice of naming JS variables like vFormPanel, vConfig, etc.
+         */
+        "no-hms-bad-variable-names": {
+            create: function(context) {
             	function checkBadVarName(node, name) {
             		const pattern = /(\bv[A-Z][A-Z0-9]*)/gm;
             		
@@ -166,13 +195,125 @@ module.exports = {
             			context.report(node, `Remove suffix 'v' from ${name} variable name.`, {});
             		}
             	}
-            	
                 return {
                 	Identifier(node) {
                 		checkBadVarName(node, node.name);
                 	}
                 }
             }
-        }
+        },
+        /**
+         * Ensure LOVField definition in _fields.js file is accompanied by a modelFields configuration
+         */
+        "no-hms-bad-lov-config": {
+            create: function(context) {
+            	const fName = context.getFilename();
+            	// Skip if not fields.js file
+            	if (fName.indexOf("_fields.js") < 0) {
+            		return {};
+            	}
+            	
+            	var globFieldsArr;
+            	
+            	function getPropertyName(fieldsItems) {
+            	    for (let k=0; k < fieldsItems.length; k++) {
+            	        const prop = fieldsItems[k];
+            	        if (prop && prop.key && prop.key.name === "name" &&
+            	            prop.value && prop.value.value) {
+            	            return prop.value.value;
+            	        }    
+            	    }
+            	}
+            	
+            	function getPropertyType(fieldsItems) {
+            	    for (let k = 0; k < fieldsItems.length; k++) {
+            	        const prop = fieldsItems[k];
+            	        if (prop && prop.key && prop.key.name === "type" && prop.value && prop.value.value) {
+            	            return prop.value.value;
+            	        }
+            	    }
+            	}
+            	
+            	function isFieldsArray(fieldsArr) {
+            		return fieldsArr && fieldsArr.key && fieldsArr.key.name ==="fields";
+            	}
+            	
+            	function isValidLOVFieldConfig(fieldName) {
+            		let fieldsArr, fieldsItemsProps, isInvalidConfig = true;
+            		
+            		if (globFieldsArr) {
+            			fieldsArr = globFieldsArr[1];
+            		}
+            		
+            		if (fieldsArr && fieldsArr.key && fieldsArr.key.name === "modelFields") {
+                        if (fieldsArr.value && fieldsArr.value.elements) {
+                            const props = fieldsArr.value.elements;
+                            for (let j = 0; j < props.length; j++) {
+                                let fieldsItems = props[j];
+
+                                if (fieldsItems && fieldsItems.type === "ObjectExpression") {
+                                    fieldsItemsProps = fieldsItems.properties;
+
+                                    let fieldMatchFound = false,
+                                    	fieldTypeFound = false;
+
+                                    for (let k = 0; k < fieldsItemsProps.length; k++) {
+                                        const prop = fieldsItemsProps[k];                            
+                                        
+                                        if (prop && prop.value && prop.value.value === fieldName) {
+                                            fieldMatchFound = true;
+                                        }
+                                        
+                                        if (prop && prop.value && ["sfcode", "sfstring"].indexOf(getPropertyType(fieldsItemsProps)) >= 0) {
+                                            fieldTypeFound = true;
+                                        }
+
+                                        if (fieldMatchFound && fieldTypeFound) {
+                                            return true;
+                                        }                                       
+                                    }
+                                }
+                            }
+                        }
+                    }
+            	}
+            	
+                return {
+                	ObjectExpression(node) {
+                		if (node.properties) {
+                			globFieldsArr = node.properties;
+                		    for (let i=0; i< node.properties.length; i++) {
+                		        const fieldsArr = node.properties[i];
+
+                		        if (isFieldsArray(fieldsArr)) {
+                		            if(fieldsArr.value && fieldsArr.value.elements) {
+                		                const props = fieldsArr.value.elements;
+                		                
+                		                for (let j=0; j < props.length; j++) {
+                		                    let fieldsItems = props[j];
+                		                    
+                		                    if (fieldsItems && fieldsItems.type === "ObjectExpression") {
+                		                        fieldsItems = fieldsItems.properties;
+
+                		                        for (let k=0; k < fieldsItems.length; k++) {
+                		                            const prop = fieldsItems[k];
+                		                            if (prop && prop.value && prop.value.value === "lovfield") {
+                		                            	const fldName = getPropertyName(fieldsItems);
+                		                                if (!isValidLOVFieldConfig(fldName)) {
+                		                                	//TODO: line number of the issue location is not displayed correctly
+                		                                	context.report(node, `Did you forget the LOVField type config in modelFields[] for field {${fldName}}`);
+                		                                }
+                		                            }    
+                		                        }
+                		                    }              
+                		                }
+                		            }
+                		        }
+                		    }    
+                		}
+                	}
+                } // return ends
+            }
+        }, //rule ends
     }
 }

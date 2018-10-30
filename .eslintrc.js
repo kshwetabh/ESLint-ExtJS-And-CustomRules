@@ -37,14 +37,14 @@ module.exports = {
         "sonarjs/cognitive-complexity": "off",
         
         //HMS Plugin rules
-        "hms-plugins/no-hms-ext-create-method": 2, //0=off, 1=warn, 2=error
+        "hms-plugins/no-hms-ext-create-method": 2, 		//0=off, 1=warn, 2=error
         "hms-plugins/no-hms-fieldlabel-asterisk": 2,
         "hms-plugins/no-hms-ext-componentquery": 1,
         "hms-plugins/no-hms-ext-window-autoshow-show": 2,
         "hms-plugins/no-hms-servercall-async": 1,
         "hms-plugins/no-hms-null-undefined": 0,
         "hms-plugins/no-hms-lookup-start-LV": 1,
-        "hms-plugins/no-hms-bad-variable-names": 0 // very noisy rule, disabled by default
-        
+        "hms-plugins/no-hms-bad-variable-names": 0, 	//Warning: very noisy rule, disabled by default
+        "hms-plugins/no-hms-bad-lov-config": 1 			//This needs to be a warning since LOV does not always need to have a type in modelFields
     }
 };
