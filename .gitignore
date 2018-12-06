@@ -1,4 +1,4 @@
 node_modules
-output.txt
-runlint.bat
-scanresult.txt
+.project
+grep-plugin
+.vscode

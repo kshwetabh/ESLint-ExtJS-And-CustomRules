@@ -42,6 +42,7 @@
 		rule {
 			font-weight: 600;
 			line-height: 4;
+			display: block;
 		}
 
 		.footer-note {
@@ -82,7 +83,7 @@
 				<th class="rule-serial">#</th>
 				<th class="rule-column">Rule</th>
 				<th>Type</th>
-				<th>Details</th>
+				<th>Description</th>
 			</tr>
 			<tr v-for="(rule,index) in filteredRules">
 				<td>{{index+1}}</td>
@@ -99,7 +100,7 @@
 	<div><span class="footer-note">Idea borrowed from:</span> <a href="https://github.com/betaorbust/eslint-formatter-compassion"
 		 target="_blank">https://github.com/betaorbust/eslint-formatter-compassion</a></div>
 
-	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+	<script src="./jsscript/vue.js"></script>
 
 	<script>
 		let allLintRules = [
@@ -107,22 +108,22 @@
 			{
 				"rule": 'no-hms-ext-create-method',
 				"type": "HMS",
-				"description": "<rule>Do not use <code>Ext.create()</code>, use <code>EAM.HmsUtils.openPopup()</code> to create a popup instead.</rule><br/> <code>EAM.HmsUtils.openPopup()</code> makes an asynchronous request so the pagewait mask appears while screen is waiting for the response."
+				"description": "<rule>Do not use <code>Ext.create()</code>, use <code>EAM.HmsUtils.openPopup()</code> to create a popup instead.</rule><code>EAM.HmsUtils.openPopup()</code> makes an asynchronous request so the pagewait mask appears while screen is waiting for the response."
 			},
 			{
 				"rule": 'no-hms-fieldlabel-asterisk',
 				"type": "HMS",
-				"description": "<rule>Use * to indicate a missing value for a field label.</rule><br/> Adding a trailing * to the <code>fieldLabel</code> config under <code>fields[]</code> inside _fields.js file shows it on the screen so it's easier to detect a missing boilertext configuration in the Text System. It becomes difficult to differentiate whether a label is fetched from the database or is displaying a hardcoded value from the _fields.js file."
+				"description": "<rule>Use * to indicate a missing value for a field label.</rule> Adding a trailing * to the <code>fieldLabel</code> config under <code>fields[]</code> inside _fields.js file shows it on the screen so it's easier to detect a missing boilertext configuration in the Text System. It becomes difficult to differentiate whether a label is fetched from the database or is displaying a hardcoded value from the _fields.js file."
 			},
 			{
 				"rule": 'no-hms-ext-componentquery',
 				"type": "HMS",
-				"description": "<rule>Avoid using Ext.ComponentQuery.query method, use view.down or popup.down method instead.</rule><br/>Use <code>view.down()</code> or <code>view.up()</code> methods to grab a reference to a component instead of the <code>Ext.ComponentQuery.query()</code> method. <code>Ext.ComponentQuery.query()</code> is an expensive method and starts searching for a component from the top of the Component hierarchy. It is slow and requires processing to locate an object. <code>view.up()</code> or <code>view.down()</code> methods are however faster since they start searching from a smaller component hierarchy."
+				"description": "<rule>Avoid using Ext.ComponentQuery.query method, use view.down or popup.down method instead.</rule>Use <code>view.down()</code> or <code>view.up()</code> methods to grab a reference to a component instead of the <code>Ext.ComponentQuery.query()</code> method. <code>Ext.ComponentQuery.query()</code> is an expensive method and starts searching for a component from the top of the Component hierarchy. It is slow and requires processing to locate an object. <code>view.up()</code> or <code>view.down()</code> methods are however faster since they start searching from a smaller component hierarchy."
 			},
 			{
 				"rule": 'no-hms-ext-window-autoshow-show',
 				"type": "HMS",
-				"description": "Do not use autoShow:true and show() in Ext.create method at the same time."
+				"description": "<rule>Do not use autoShow:true and show() in Ext.create method at the same time.</rule>This is a common mistake made by the developers where they specify both <code>autoShow:true</code> and <code>show()</code> method at the same time. This check is a reminder to avoid it."
 			},
 			{
 				"rule": 'no-hms-servercall-async',
@@ -137,17 +138,17 @@
 			{
 				"rule": 'no-hms-lookup-start-LV',
 				"type": "HMS",
-				"description": "All LOV codes should start with 'LV'"
+				"description": "<rule>All LOV codes should start with 'LV'.</rule>This is a HMS checklist item and LOV naming convention. This helps in differentiating between a regular grid and a LOV grid."
 			},
 			{
 				"rule": 'no-hms-bad-variable-names',
 				"type": "HMS",
-				"description": "<rule>Remove suffix 'v' from variable names.</rule><br/> Like change <code>vFormPanel</code>, <code>vConfig</code> to <code>formPanel</code>, <code>config</code>, etc. This is a practice followed in HMS Java code to differentiate a method parameter (like pReservationStay) from a method variable (vReservationStay)."
+				"description": "<rule>Remove suffix 'v' from variable names.</rule> Like change <code>vFormPanel</code>, <code>vConfig</code> to <code>formPanel</code>, <code>config</code>, etc. This is a practice followed in HMS Java code to differentiate a method parameter (like pReservationStay) from a method variable (vReservationStay)."
 			},
 			{
 				"rule": 'no-hms-bad-lov-config',
 				"type": "HMS",
-				"description": "<rule>Did you forget the LOVField type config in modelFields[] for the LOV field?</rule><br/> Consider this rule just a reminder to use type config (<code>type: sfcode</code>) for a LOV. This config is not always necessary, it just converts the value in the LOV field to all uppercase. It is required only for the cases where the LOV displays Code in the field. Ignore this rule if the LOV needs to display a description, name, etc. as they can have mixed cases."
+				"description": "<rule>Did you forget the LOVField type config in modelFields[] for the LOV field?</rule> Consider this rule just a reminder to use type config (<code>type: sfcode</code>) for a LOV. This config is not always necessary, it just converts the value in the LOV field to all uppercase. It is required only for the cases where the LOV displays Code in the field. Ignore this rule if the LOV needs to display a description, name, etc. as they can have mixed cases."
 			},
 			//SonarLint Rules
 			{
