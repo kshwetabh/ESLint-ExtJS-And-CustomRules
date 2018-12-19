@@ -4,21 +4,26 @@
 		"description": "",
 		"main": "index.js",
 		"hmsFEWorkspace": "C:/Users/ksfnu/eclipseWorkspace/workspace38_Photon/Frontend/src/main/webapp/",
-		"hmsDeployDir": "C:/HMS38/wildfly/standalone/deployments/web.war/",
+		"hmsDeployDir": "C:/HMS38/",
+		"hmsWebWarLocation": "%npm_package_hmsDeployDir%wildfly/standalone/deployments/web.war/",	
+		"hmsStandaloneXML": "C:/HMS38/wildfly/standalone/configuration/standalone.xml",
+		"webXMLVMSrcFilePath": "%npm_package_hmsFEWorkspace%WEB-INF/web.xml.vm",
+		"webXMLVMDestFilePath": "%npm_package_hmsWebWarLocation%WEB-INF/web.xml",
 		"scripts": {
-			"watch": "cpx %npm_package_hmsFEWorkspace%**/*.{js,jsp,xml} %npm_package_hmsDeployDir% --watch --no-initial --verbose ",
+			"watch": "cpx %npm_package_hmsFEWorkspace%**/*.{js,jsp,xml} %npm_package_hmsWebWarLocation% --watch --no-initial --verbose ",
 			"lint": "esw -w --clear --changed -c .eslintrc.js %npm_package_hmsFEWorkspace%",
+			"standalone": "node main.js %npm_package_hmsStandaloneXML% %npm_package_",
 			"dev": "start npm run watch && start npm run lint"
 		},
 		"scriptsComments": {
-			"watch": "Watches files for changes inside Eclipse HMS Workspace (hmsFEWorkspace) and copies the changed files to the deploy directory (hmsDeployDir)",
+			"watch": "Watches files for changes inside Eclipse HMS Workspace (hmsFEWorkspace) and copies the changed files to the deploy directory (hmsWebWarLocation)",
 			"lint": "Runs ESLint with Watch utility and scans the modified files for lint errors",
 			"dev": "Launches both lint and watch tasks together in separate command prompt windows"
 	  	},
 		"devDependencies": {
-			"eslint": "^5.7.0",
-			"eslint-plugin-sonarjs": "^0.2.0",
-			"eslint-watch": "^4.0.2"
+				"eslint": "^5.7.0",
+				"eslint-plugin-sonarjs": "^0.2.0",
+				"eslint-watch": "^4.0.2"
 		},
 		"author": "",
 		"license": "ISC",
