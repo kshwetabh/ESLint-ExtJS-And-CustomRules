@@ -3,9 +3,18 @@
 		"version": "1.0.0",
 		"description": "",
 		"main": "index.js",
+		"hmsFEWorkspace": "C:/Users/ksfnu/eclipseWorkspace/workspace38_Photon/Frontend/src/main/webapp/",
+		"hmsDeployDir": "C:/HMS38/wildfly/standalone/deployments/web.war/",
 		"scripts": {
-				"test": "echo \"Error: no test specified\" && exit 1"
+			"watch": "cpx %npm_package_hmsFEWorkspace%**/*.{js,jsp,xml} %npm_package_hmsDeployDir% --watch --no-initial --verbose ",
+			"lint": "esw -w --clear --changed -c .eslintrc.js %npm_package_hmsFEWorkspace%",
+			"dev": "start npm run watch && start npm run lint"
 		},
+		"scriptsComments": {
+			"watch": "Watches files for changes inside Eclipse HMS Workspace (hmsFEWorkspace) and copies the changed files to the deploy directory (hmsDeployDir)",
+			"lint": "Runs ESLint with Watch utility and scans the modified files for lint errors",
+			"dev": "Launches both lint and watch tasks together in separate command prompt windows"
+	  	},
 		"devDependencies": {
 				"eslint": "^5.7.0",
 				"eslint-plugin-sonarjs": "^0.2.0",
@@ -14,6 +23,7 @@
 		"author": "",
 		"license": "ISC",
 		"dependencies": {
+				"cpx": "^1.5.0",
 				"eslint-plugin-hms-plugins": "file:eslint"
 		},
 		"eslintIgnore": [
