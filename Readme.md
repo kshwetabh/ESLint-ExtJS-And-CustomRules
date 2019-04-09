@@ -2,11 +2,11 @@
 1. Download and install latest version of NodeJS.
 2. Download the project as zip from github and extract on local machine in a directory.
 3. Open package.json file and update Eclipse Workspace path (value for hmsFEWorkspace in package.json file) as per your Eclipse workspace.
-4. Open command prompt and navigate to the extracted directory. Run the following command. This should install all dependencies required to run the ESLint on your machine
+4. Open command prompt and navigate to the extracted directory. Run the following command. This should install all dependencies required to run the ESLint on your machine   
 	**npm install**
-5. To install Custom HMS-ESlint plugin, delete package-lock.json file (don't delete package.json file) and run the following command on command prompt. This should install the custom plugin.
+5. To install Custom HMS-ESlint plugin, delete package-lock.json file (don't delete package.json file) and run the following command on command prompt. This should install the custom plugin.   
 	**npm install -S ./hms_plugin**
-6. Now run the following command on Command Prompt to run Eslint tool:
+6. Now run the following command on Command Prompt to run Eslint tool:   
 	**RunEslint.bat**
 7. The first run of the tool will take some time (30sec - 1minute) since the tool tries to scan entire workspace. All subsequent runs will be fast.
 8. Now in Eclipse whenever you save a JS file, the tool will auto-detect the file changed and will run scan on that changed file.
