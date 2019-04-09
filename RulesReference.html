@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>ESLint Reference</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		.rules {
+			font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			line-height: 1.5em;
+		}
+		.rules td,
+		.rules th {
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+
+		.rules tr:nth-child(even) {
+			background-color: #f2f2f2;
+		}
+
+		.rules tr:hover {
+			background-color: #ddd;
+		}
+
+		.rules th {
+			padding-top: 12px;
+			padding-bottom: 12px;
+			text-align: left;
+			background-color: #4CAF50;
+			color: white;
+		}
+		.rules .rule-column {
+			width: 20%;
+		}
+		.rules .rule-serial {
+			width: 20px;
+		}
+		
+		rule {
+			font-weight: 600;
+			line-height: 4;
+			display: block;
+		}
+
+		.footer-note {
+			font-weight: 600;
+		}
+		* {
+			box-sizing: border-box;
+		}
+		input {
+			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVCAYAAACpF6WWAAAB+ElEQVQ4jaXUTU/yQBSGYf///2G+PyQ2NAUk7mwibGShMTGFYoVI9X4XholIseZ1Nk2bk6uT85yZC76ttm2Zz+cURUGMkRgjeZ5TliXb7fZ7eee6+PpSliWDwQBrLd57QgiEEPDeY61FCMFsNvs9WhQFWusEWWvRWqO1xhhz9P3y8rIfLcsSrTUxRpxzGGNYLBasVivquub+/j6BMUastUwmk/No27YMBgNCCDjnyLLsbPH19XWCpZRUVdWNzudzrLWEEDDG/NwsYDgc4r3HOcd0Ou1Gi6JIQSwWi1706ekp9Vgp1Y3GGAkhoLVmvV73om3bopRKLXh/fz9FD6lqranruhf9+Pg4Qvf7/Sk6Go1SP5fLZS9aVVUaPSllZ83F7e0tzjm898QYe9FDBt578jzvRpumQQiR5u/m5uYseHd3l+bZGMPj42M3CjCZTNL8GWPIsozn5+dUtF6vGY/HCTxk0BVSQoGjE+O9R2uNlBIpJVprnHMJPDyVUry9vZ1HAUajEVLKo8vk66VijEkhHX6ulGK3251H4XO48zxHSolSCqUUQgiyLOPh4YGqqhBCHO1YSsnr6+t59Ova7XYnuwBYrVad8MvLSz/606rr+gQWQtA0zf+jAJvN5gj23jMcDv+GAjRNk8I9HKA/o/DZ+6urK0II1HXNP+caW2+2i/fCAAAAAElFTkSuQmCC');
+			background-position: 10px 12px;
+			background-repeat: no-repeat;
+			width: 100%;
+			font-size: 16px;
+			padding: 12px 20px 12px 40px;
+			border: 1px solid #ddd;
+			margin-bottom: 12px;
+		}
+		code {
+			background-color: #e1e1e1;
+			padding: 2px 4px 2px 4px;
+			border: 1px solid #a7a6a6;
+		}
+		code:hover {
+			color: #33aa0c;
+    		font-weight: 800;
+		}
+	</style>
+</head>
+
+<body>
+	<h1 style="text-align: center;">ESLint Rules Guide</h1>
+	<div id="app">
+		<input type="text" v-model="filterText" placeholder="Filter rules...">
+
+		<table class="rules">
+			<tr>
+				<th class="rule-serial">#</th>
+				<th class="rule-column">Rule</th>
+				<th>Type</th>
+				<th>Description</th>
+			</tr>
+			<tr v-for="(rule,index) in filteredRules">
+				<td>{{index+1}}</td>
+				<td>{{rule.rule}}</td>
+				<td>{{rule.type}}</td>
+				<td>
+					<div v-if="rule.desc" v-html="rule.desc"></div>
+					<a v-if="rule.url" v-bind:href="rule.url" target="_blank">{{rule.url}}</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<br>
+	<div><span class="footer-note">Idea borrowed from:</span> <a href="https://github.com/betaorbust/eslint-formatter-compassion"
+		 target="_blank">https://github.com/betaorbust/eslint-formatter-compassion</a></div>
+
+	<script src="./jsscript/vue.js"></script>
+
+	<script>
+		let allLintRules = [
+			//HMS Custom Rules
+			{
+				"rule": 'no-hms-ext-create-method',
+				"type": "HMS",
+				"description": "<rule>Do not use <code>Ext.create()</code>, use <code>EAM.HmsUtils.openPopup()</code> to create a popup instead.</rule><code>EAM.HmsUtils.openPopup()</code> makes an asynchronous request so the pagewait mask appears while screen is waiting for the response."
+			},
+			{
+				"rule": 'no-hms-fieldlabel-asterisk',
+				"type": "HMS",
+				"description": "<rule>Use * to indicate a missing value for a field label.</rule> Adding a trailing * to the <code>fieldLabel</code> config under <code>fields[]</code> inside _fields.js file shows it on the screen so it's easier to detect a missing boilertext configuration in the Text System. It becomes difficult to differentiate whether a label is fetched from the database or is displaying a hardcoded value from the _fields.js file."
+			},
+			{
+				"rule": 'no-hms-ext-componentquery',
+				"type": "HMS",
+				"description": "<rule>Avoid using Ext.ComponentQuery.query method, use view.down or popup.down method instead.</rule>Use <code>view.down()</code> or <code>view.up()</code> methods to grab a reference to a component instead of the <code>Ext.ComponentQuery.query()</code> method. <code>Ext.ComponentQuery.query()</code> is an expensive method and starts searching for a component from the top of the Component hierarchy. It is slow and requires processing to locate an object. <code>view.up()</code> or <code>view.down()</code> methods are however faster since they start searching from a smaller component hierarchy."
+			},
+			{
+				"rule": 'no-hms-ext-window-autoshow-show',
+				"type": "HMS",
+				"description": "<rule>Do not use autoShow:true and show() in Ext.create method at the same time.</rule>This is a common mistake made by the developers where they specify both <code>autoShow:true</code> and <code>show()</code> method at the same time. This check is a reminder to avoid it."
+			},
+			{
+				"rule": 'no-hms-servercall-async',
+				"type": "HMS",
+				"description": "Use async:true with EAM.Utils.serverCall to make async calls and display page mask."
+			},
+			{
+				"rule": 'no-hms-null-undefined',
+				"type": "HMS",
+				"description": "Use Ext.isEmpty() method for null or empty check."
+			},
+			{
+				"rule": 'no-hms-lookup-start-LV',
+				"type": "HMS",
+				"description": "<rule>All LOV codes should start with 'LV'.</rule>This is a HMS checklist item and LOV naming convention. This helps in differentiating between a regular grid and a LOV grid."
+			},
+			{
+				"rule": 'no-hms-bad-variable-names',
+				"type": "HMS",
+				"description": "<rule>Remove suffix 'v' from variable names.</rule> Like change <code>vFormPanel</code>, <code>vConfig</code> to <code>formPanel</code>, <code>config</code>, etc. This is a practice followed in HMS Java code to differentiate a method parameter (like pReservationStay) from a method variable (vReservationStay)."
+			},
+			{
+				"rule": 'no-hms-bad-lov-config',
+				"type": "HMS",
+				"description": "<rule>Did you forget the LOVField type config in modelFields[] for the LOV field?</rule> Consider this rule just a reminder to use type config (<code>type: sfcode</code>) for a LOV. This config is not always necessary, it just converts the value in the LOV field to all uppercase. It is required only for the cases where the LOV displays Code in the field. Ignore this rule if the LOV needs to display a description, name, etc. as they can have mixed cases."
+			},
+			//SonarLint Rules
+			{
+				"rule": "sonarjs/cognitive-complexity",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-3776"
+			},
+			{
+				"rule": "sonarjs/max-switch-cases",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1479"
+			},
+			{
+				"rule": "sonarjs/no-all-duplicated-branches",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-3923"
+			},
+			{
+				"rule": "sonarjs/no-duplicate-string",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1192"
+			},
+			{
+				"rule": "sonarjs/no-duplicated-branches",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1871"
+			},
+			{
+				"rule": "sonarjs/no-element-overwrite",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-4143"
+			},
+			{
+				"rule": "sonarjs/no-extra-arguments",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-930"
+			},
+			{
+				"rule": "sonarjs/no-identical-conditions",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1862"
+			},
+			{
+				"rule": "sonarjs/no-identical-expressions",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1764"
+			},
+			{
+				"rule": "sonarjs/no-identical-functions",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-4144"
+			},
+			{
+				"rule": "sonarjs/no-inverted-boolean-check",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1940"
+			},
+			{
+				"rule": "sonarjs/no-one-iteration-loop",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1751"
+			},
+			{
+				"rule": "sonarjs/no-redundant-boolean",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1125"
+			},
+			{
+				"rule": "sonarjs/no-small-switch",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1301"
+			},
+			{
+				"rule": "sonarjs/no-use-of-empty-return-value",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-3699"
+			},
+			{
+				"rule": "sonarjs/no-useless-catch",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1940"
+			},
+			{
+				"rule": "sonarjs/prefer-immediate-return",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1488"
+			},
+			{
+				"rule": "sonarjs/prefer-object-literal",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-2428"
+			},
+			{
+				"rule": "sonarjs/prefer-single-boolean-return",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1126"
+			},
+			{
+				"rule": "sonarjs/prefer-while",
+				"type": "SonarLint",
+				"url": "https://rules.sonarsource.com/javascript/RSPEC-1264"
+			},
+			"accessor-pairs", "array-bracket-newline", "array-bracket-spacing", "array-callback-return", "array-element-newline", "arrow-body-style", "arrow-parens", "arrow-spacing", "block-scoped-var", "block-spacing", "brace-style", "callback-return", "camelcase", "capitalized-comments", "class-methods-use-this", "comma-dangle", "comma-spacing", "comma-style", "complexity", "computed-property-spacing", "consistent-return", "consistent-this", "constructor-super", "curly", "default-case", "dot-location", "dot-notation", "eol-last", "eqeqeq", "for-direction", "func-call-spacing", "func-name-matching", "func-names", "func-style", "function-paren-newline", "generator-star-spacing", "getter-return", "global-require", "guard-for-in", "handle-callback-err", "id-blacklist", "id-length", "id-match", "implicit-arrow-linebreak", "indent-legacy", "indent", "init-declarations", "jsx-quotes", "key-spacing", "keyword-spacing", "line-comment-position", "linebreak-style", "lines-around-comment", "lines-around-directive", "lines-between-class-members", "max-classes-per-file", "max-depth", "max-len", "max-lines-per-function", "max-lines", "max-nested-callbacks", "max-params", "max-statements-per-line", "max-statements", "multiline-comment-style", "multiline-ternary", "new-cap", "new-parens", "newline-after-var", "newline-before-return", "newline-per-chained-call", "no-alert", "no-array-constructor", "no-async-promise-executor", "no-await-in-loop", "no-bitwise", "no-buffer-constructor", "no-caller", "no-case-declarations", "no-catch-shadow", "no-class-assign", "no-compare-neg-zero", "no-cond-assign", "no-confusing-arrow", "no-console", "no-const-assign", "no-constant-condition", "no-continue", "no-control-regex", "no-debugger", "no-delete-var", "no-div-regex", "no-dupe-args", "no-dupe-class-members", "no-dupe-keys", "no-duplicate-case", "no-duplicate-imports", "no-else-return", "no-empty-character-class", "no-empty-function", "no-empty-pattern", "no-empty", "no-eq-null", "no-eval", "no-ex-assign", "no-extend-native", "no-extra-bind", "no-extra-boolean-cast", "no-extra-label", "no-extra-parens", "no-extra-semi", "no-fallthrough", "no-floating-decimal", "no-func-assign", "no-global-assign", "no-implicit-coercion", "no-implicit-globals", "no-implied-eval", "no-inline-comments", "no-inner-declarations", "no-invalid-regexp", "no-invalid-this", "no-irregular-whitespace", "no-iterator", "no-label-var", "no-labels", "no-lone-blocks", "no-lonely-if", "no-loop-func", "no-magic-numbers", "no-misleading-character-class", "no-mixed-operators", "no-mixed-requires", "no-mixed-spaces-and-tabs", "no-multi-assign", "no-multi-spaces", "no-multi-str", "no-multiple-empty-lines", "no-native-reassign", "no-negated-condition", "no-negated-in-lhs", "no-nested-ternary", "no-new-func", "no-new-object", "no-new-require", "no-new-symbol", "no-new-wrappers", "no-new", "no-obj-calls", "no-octal-escape", "no-octal", "no-param-reassign", "no-path-concat", "no-plusplus", "no-process-env", "no-process-exit", "no-proto", "no-prototype-builtins", "no-redeclare", "no-regex-spaces", "no-restricted-globals", "no-restricted-imports", "no-restricted-modules", "no-restricted-properties", "no-restricted-syntax", "no-return-assign", "no-return-await", "no-script-url", "no-self-assign", "no-self-compare", "no-sequences", "no-shadow-restricted-names", "no-shadow", "no-spaced-func", "no-sparse-arrays", "no-sync", "no-tabs", "no-template-curly-in-string", "no-ternary", "no-this-before-super", "no-throw-literal", "no-trailing-spaces", "no-undef-init", "no-undef", "no-undefined", "no-underscore-dangle", "no-unexpected-multiline", "no-unmodified-loop-condition", "no-unneeded-ternary", "no-unreachable", "no-unsafe-finally", "no-unsafe-negation", "no-unused-expressions", "no-unused-labels", "no-unused-vars", "no-use-before-define", "no-useless-call", "no-useless-computed-key", "no-useless-concat", "no-useless-constructor", "no-useless-escape", "no-useless-rename", "no-useless-return", "no-var", "no-void", "no-warning-comments", "no-whitespace-before-property", "no-with", "nonblock-statement-body-position", "object-curly-newline", "object-curly-spacing", "object-property-newline", "object-shorthand", "one-var-declaration-per-line", "one-var", "operator-assignment", "operator-linebreak", "padded-blocks", "padding-line-between-statements", "prefer-arrow-callback", "prefer-const", "prefer-destructuring", "prefer-numeric-literals", "prefer-object-spread", "prefer-promise-reject-errors", "prefer-reflect", "prefer-rest-params", "prefer-spread", "prefer-template", "quote-props", "quotes", "radix", "require-atomic-updates", "require-await", "require-jsdoc", "require-unicode-regexp", "require-yield", "rest-spread-spacing", "semi-spacing", "semi-style", "semi", "sort-imports", "sort-keys", "sort-vars", "space-before-blocks", "space-before-function-paren", "space-in-parens", "space-infix-ops", "space-unary-ops", "spaced-comment", "strict", "switch-colon-spacing", "symbol-description", "template-curly-spacing", "template-tag-spacing", "unicode-bom", "use-isnan", "valid-jsdoc", "valid-typeof", "vars-on-top", "wrap-iife", "wrap-regex", "yield-star-spacing", "yoda"],
+			rules = [],
+			esLintURL = "https://eslint.org/docs/rules/";
+
+		allLintRules.forEach(function (rule) {
+			let isCustomRule = (typeof rule === "object"),
+				ruleCode = isCustomRule ? rule.rule : rule;
+
+			rules.push({
+				"rule": ruleCode,
+				"url": (rule.type === "HMS") ? '' : (rule.url ? rule.url : (esLintURL + ruleCode)),
+				"type": rule.type || "ESLint",
+				"desc": rule.description
+			});
+		})
+
+		var app = new Vue({
+			el: '#app',
+			data: {
+				filterText: '',
+				rules: rules
+			},
+			computed: {
+				filteredRules: function () {
+					const filterText = this.filterText;
+					return this.rules.filter(function (item) {
+						return item.rule.toLowerCase().indexOf(filterText.toLowerCase()) > -1
+					});
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>
