@@ -11,7 +11,6 @@ module.exports = {
     window: false,
     Ext: false,
     EAM: false,
-    infor: false,
     gMenuJson: false,
     gToolbarText: false,
     gUserData: false,
