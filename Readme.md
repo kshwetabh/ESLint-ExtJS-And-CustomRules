@@ -1,17 +1,17 @@
 =============================================================================================================== 
 STEPS TO INSTALL AND CONFIGURE ESLINT TOOL AND CUSTOM RULES
 =============================================================================================================== 
-- Download and install latest version of NodeJS.
-- Download the project as zip from github and extract on local machine in a directory.
-- Open package.json file and update Eclipse Workspace path (value for hmsFEWorkspace in package.json file) as per your Eclipse workspace.
-- Open command prompt and navigate to the extracted directory. Run the following command. This should install all dependencies required to run the ESLint on your machine
-	npm install
-- To install Custom HMS-ESlint plugin, delete package-lock.json file (don't delete package.json file) and run the following command on command prompt. This should install the custom plugin.
-	npm install -S ./hms_plugin
-- Now run the following command on Command Prompt to run Eslint tool:
-	RunEslint.bat
-- The first run of the tool will take some time (30sec - 1minute) since the tool tries to scan entire workspace. All subsequent runs will be fast.
-- Now in Eclipse whenever you save a JS file, the tool will auto-detect the file changed and will run scan on that changed file.
+# Download and install latest version of NodeJS.
+# Download the project as zip from github and extract on local machine in a directory.
+# Open package.json file and update Eclipse Workspace path (value for hmsFEWorkspace in package.json file) as per your Eclipse workspace.
+# Open command prompt and navigate to the extracted directory. Run the following command. This should install all dependencies required to run the ESLint on your machine
+	**npm install**
+# To install Custom HMS-ESlint plugin, delete package-lock.json file (don't delete package.json file) and run the following command on command prompt. This should install the custom plugin.
+	**npm install -S ./hms_plugin**
+# Now run the following command on Command Prompt to run Eslint tool:
+	**RunEslint.bat**
+# The first run of the tool will take some time (30sec - 1minute) since the tool tries to scan entire workspace. All subsequent runs will be fast.
+# Now in Eclipse whenever you save a JS file, the tool will auto-detect the file changed and will run scan on that changed file.
 
 
 =============================================================================================================== 
