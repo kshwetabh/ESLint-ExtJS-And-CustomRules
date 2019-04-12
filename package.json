@@ -5,7 +5,7 @@
 	"main": "index.js",
 	"hmsFEWorkspace": "C:/Users/ksfnu/eclipseWorkspace/workspace38_Photon/Frontend/src/main/webapp/",
 	"scripts": {
-		"lint": "esw --quiet -w --clear --changed -c .eslintrc.js %npm_package_hmsFEWorkspace%"
+		"lint": "esw -w --clear --changed -c .eslintrc.js %npm_package_hmsFEWorkspace%"
 	},
 	"scriptsComments": {
 		"lint": "Runs ESLint with Watch utility and scans the modified files for lint errors, --quiet:flag to disable warnings and show only errors, --w: flag watches for changes and automatically re-runs lint on changed files"
