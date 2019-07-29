@@ -19,16 +19,17 @@
 
 
 
-**IGNORE THE BELOW NOTES IF YOU DON'T PLAN TO DEVELOP OR TIME THE CUSTOM ESLINT PLUGINS (USED ONLY FOR ESLINT PLUGIN DEVELOPMENT)**
+### IGNORE THE BELOW NOTES IF YOU DON'T PLAN TO DEVELOP OR TIME THE CUSTOM ESLINT PLUGINS (USED ONLY FOR ESLINT PLUGIN DEVELOPMENT)
 
 
 
-**To capture the performance of custom rules run the below command on Command Prompt inside LintTool directory.**
+#### To capture the performance of custom rules run the below command on Command Prompt inside LintTool directory.
 
+```shell
 C:\> set TIMING=1
 C:\> node_modules\.bin\eslint --rule "hms-plugins/no-hms-ext-create-method: 2" --rule "hms-plugins/no-hms-fieldlabel-asterisk: 2" --rule "hms-plugins/no-hms-ext-componentquery: 1" --rule "hms-plugins/no-hms-ext-window-autoshow-show: 2" --rule "hms-plugins/no-hms-servercall-async: 1" --rule "hms-plugins/no-hms-null-undefined: 0" --rule "hms-plugins/no-hms-lookup-start-LV: 1" --rule "hms-plugins/no-hms-bad-variable-names: 0" --rule "hms-plugins/no-hms-bad-lov-config: 1"  C:\eclipseWorkspace\Frontend\src\main\webapp\app\
+```
 
-
-**Online References:**
+### Online References:
 
 https://www.kenneth-truyers.net/2016/05/27/writing-custom-eslint-rules/
