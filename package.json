@@ -24,7 +24,7 @@
 	"license": "ISC",
 	"dependencies": {
 			"cpx": "^1.5.0",
-			"eslint-plugin-hms-plugins": "file:eslint"
+			"eslint-plugin-hms-plugins": "file:hms_plugin"
 	},
 	"eslintIgnore": [
 			"Application.js",
