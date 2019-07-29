@@ -1,5 +1,5 @@
 /**
- * Custom Rules to enforce HMS coding standards and best practices.
+ * Custom Rules to enforce Project Specific coding standards and best practices.
  */
 
 module.exports = {
@@ -276,7 +276,7 @@ module.exports = {
                             }
                         }
                     }
-            	}
+            	} /* isValidLOVFieldConfig - Ends */
             	
                 return {
                 	ObjectExpression(node) {
