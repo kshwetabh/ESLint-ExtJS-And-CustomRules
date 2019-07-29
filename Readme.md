@@ -1,4 +1,4 @@
-### STEPS TO INSTALL AND CONFIGURE ESLINT TOOL AND CUSTOM RULES**
+### STEPS TO INSTALL AND CONFIGURE ESLINT TOOL AND CUSTOM RULES
 1. Download and install latest version of [NodeJS](https://nodejs.org/en/).
 2. [Download](https://github.com/kshwetabh/ESLint-ExtJS-And-CustomRules/archive/master.zip) the project as zip from github and extract on local machine in a directory.
 3. Open **package.json** file and update Eclipse Workspace path (value for hmsFEWorkspace in package.json file) as per your Eclipse workspace.
