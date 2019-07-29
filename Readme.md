@@ -1,7 +1,7 @@
-**STEPS TO INSTALL AND CONFIGURE ESLINT TOOL AND CUSTOM RULES**
+### STEPS TO INSTALL AND CONFIGURE ESLINT TOOL AND CUSTOM RULES**
 1. Download and install latest version of NodeJS.
 2. Download the project as zip from github and extract on local machine in a directory.
-3. Open package.json file and update Eclipse Workspace path (value for hmsFEWorkspace in package.json file) as per your Eclipse workspace.
+3. Open **package.json** file and update Eclipse Workspace path (value for hmsFEWorkspace in package.json file) as per your Eclipse workspace.
 4. Open command prompt and navigate to the extracted directory. Run the following command. This should install all dependencies required to run the ESLint on your machine   
 	```
 	npm install
@@ -19,17 +19,18 @@
 
 
 
+
 ### IGNORE THE BELOW NOTES IF YOU DON'T PLAN TO DEVELOP OR TIME THE CUSTOM ESLINT PLUGINS (USED ONLY FOR ESLINT PLUGIN DEVELOPMENT)
 
-
-
 #### To capture the performance of custom rules run the below command on Command Prompt inside LintTool directory.
+It is important to evaluate the impact of each custom rule so that they don't slow down the overall eslint validation time. Included a baseline of the various custom rules.
+
+![Custom Rule Timing Performance](Performance_Timing.JPG)
 
 ```shell
 C:\> set TIMING=1
-C:\> node_modules\.bin\eslint --rule "hms-plugins/no-hms-ext-create-method: 2" --rule "hms-plugins/no-hms-fieldlabel-asterisk: 2" --rule "hms-plugins/no-hms-ext-componentquery: 1" --rule "hms-plugins/no-hms-ext-window-autoshow-show: 2" --rule "hms-plugins/no-hms-servercall-async: 1" --rule "hms-plugins/no-hms-null-undefined: 0" --rule "hms-plugins/no-hms-lookup-start-LV: 1" --rule "hms-plugins/no-hms-bad-variable-names: 0" --rule "hms-plugins/no-hms-bad-lov-config: 1"  C:\eclipseWorkspace\Frontend\src\main\webapp\app\
+C:\> node_modules\.bin\eslint --rule "hms-plugins/no-hms-ext-create-method: 2" --rule "hms-plugins/no-hms-fieldlabel-asterisk: 2" --rule "hms-plugins/no-hms-ext-componentquery: 1" --rule "hms-plugins/no-hms-ext-window-autoshow-show: 2" --rule "hms-plugins/no-hms-servercall-async: 1" --rule "hms-plugins/no-hms-null-undefined: 0" --rule "hms-plugins/no-hms-lookup-start-LV: 1" --rule "hms-plugins/no-hms-bad-variable-names: 0" --rule "hms-plugins/no-hms-bad-lov-config: 1"  C:/Users/ksfnu/eclipseWorkspace/workspace38_Photon/Frontend/src/main/webapp/
 ```
 
 ### Online References:
-
-https://www.kenneth-truyers.net/2016/05/27/writing-custom-eslint-rules/
+[Writing Custom EsLint Rules](https://www.kenneth-truyers.net/2016/05/27/writing-custom-eslint-rules/)
